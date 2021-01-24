@@ -70,7 +70,7 @@ public class DemoApplication {
 		}
 	}
 	public static String removeCharAt(String s, int pos) {
-		return s.substring(0, pos) + s.substring(pos + 1); // Возвращаем подстроку s, которая начиная с нулевой позиции переданной строки (0) и заканчивается позицией символа (pos), который мы хотим удалить, соединенную с другой подстрокой s, которая начинается со следующей позиции после позиции символа (pos + 1), который мы удаляем, и заканчивается последней позицией переданной строки.
+		return s.substring(0, pos) + s.substring(pos + 1);
 	}
 
 	public static void all_shops(ArrayList<Integer> array_of_shops) {
