@@ -27,7 +27,12 @@ public class DemoApplication {
 
 			JSONObject displayed = obj.getJSONObject("displayedName");
 			JSONObject disp_fin = displayed.getJSONObject("displayedName");
-			System.out.println("Название товара:\n" + disp_fin.getJSONArray("value"));
+			JSONArray aaa = disp_fin.getJSONArray("value");
+			String f = aaa.toString();
+			f = removeCharAt(f, 0);
+			f = removeCharAt(f, f.length() - 1);
+			//System.out.println("Название товара:\n" + disp_fin.getJSONArray("value"));
+			System.out.println(f);
 
 			JSONObject stock = obj.getJSONObject("stock");
 			JSONObject stocks = stock.getJSONObject("stocks");
@@ -63,6 +68,9 @@ public class DemoApplication {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	public static String removeCharAt(String s, int pos) {
+		return s.substring(0, pos) + s.substring(pos + 1); // Возвращаем подстроку s, которая начиная с нулевой позиции переданной строки (0) и заканчивается позицией символа (pos), который мы хотим удалить, соединенную с другой подстрокой s, которая начинается со следующей позиции после позиции символа (pos + 1), который мы удаляем, и заканчивается последней позицией переданной строки.
 	}
 
 	public static void all_shops(ArrayList<Integer> array_of_shops) {
