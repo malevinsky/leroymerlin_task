@@ -25,24 +25,16 @@ public class DemoApplication {
 			String content = new String(Files.readAllBytes(Paths.get(link)));
 			JSONObject obj = new JSONObject(content);
 
-			JSONObject displayed = obj.getJSONObject("displayedName");
-			JSONObject disp_fin = displayed.getJSONObject("displayedName");
-			JSONArray aaa = disp_fin.getJSONArray("value");
-			String f = aaa.toString();
-			f = removeCharAt(f, 0);
-			f = removeCharAt(f, f.length() - 1);
-			//System.out.println("Название товара:\n" + disp_fin.getJSONArray("value"));
-			System.out.println(f);
-
+			print_name(obj);
 			JSONObject stock = obj.getJSONObject("stock");
 			JSONObject stocks = stock.getJSONObject("stocks");
 			JSONObject region = stocks.getJSONObject("34");
-			JSONArray ja = new JSONArray();
-			ja.put(region);
+			JSONArray jsonarray = new JSONArray();
+			jsonarray.put(region);
 
-			for (int i = 0, size = ja.length(); i < size; i++)
+			for (int i = 0, size = jsonarray.length(); i < size; i++)
 			{
-				JSONObject objectInArray = ja.getJSONObject(i);
+				JSONObject objectInArray = jsonarray.getJSONObject(i);
 				String[] elementNames = JSONObject.getNames(objectInArray);
 
 				int min = 0;
@@ -52,33 +44,44 @@ public class DemoApplication {
 
 				for (String elementName : elementNames) {
 					String valuee = objectInArray.getString(elementName);
-					int x = Integer.parseInt(valuee);
-					int y = Integer.parseInt(elementName);
-					map.put(x, y);
+					int stockitem = Integer.parseInt(valuee);
+					int shop = Integer.parseInt(elementName);
+					map.put(stockitem, shop);
 
-					min = Math.max(min, x);
-					if (x > 0) {
-						array_of_shops.add(y);
+					min = Math.max(min, stockitem);
+					if (stockitem > 0) {
+						array_of_shops.add(shop);
 					}
 				}
-				all_shops(array_of_shops);
-				maximum(map, min);
+				print_all_shops(array_of_shops);
+				print_maximum(map, min);
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
+	public static void print_name(JSONObject obj) {
+		JSONObject displayed = obj.getJSONObject("displayedName");
+		JSONObject disp_fin = displayed.getJSONObject("displayedName");
+		JSONArray aaa = disp_fin.getJSONArray("value");
+		String f = aaa.toString();
+		f = removeCharAt(f, 0);
+		f = removeCharAt(f, f.length() - 1);
+		//System.out.println("Название товара:\n" + disp_fin.getJSONArray("value"));
+		System.out.println(f);
+	}
 	public static String removeCharAt(String s, int pos) {
 		return s.substring(0, pos) + s.substring(pos + 1);
 	}
 
-	public static void all_shops(ArrayList<Integer> array_of_shops) {
-		Collections.sort(array_of_shops);
+	public static void print_all_shops(ArrayList<Integer> array_of_shops) {
+		Collections.sort(array_of_shops);  //сортирую, чтобы магазины отображались в порядке возрастания
 		System.out.println("\nМагазины, в которых имеется товар:\n" + array_of_shops + "\n");
 	}
 
-	public static void maximum(HashMap<Integer, Integer> map, int min) {
+	public static void print_maximum(HashMap<Integer, Integer> map, int min) {
 		int biggest = min;
 		int shop = map.remove(biggest);
 		System.out.println("Больше всего товара находится в магазине " + shop + " в колличестве " + biggest + " штук");
